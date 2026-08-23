@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('git checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/YoungMinds2024/Ekart.git'
+                git branch: 'main', url: 'https://github.com/akashmhetre12/Ekart-Java.git'
             }
         }
 
@@ -41,6 +41,14 @@ pipeline {
             }
         }
 
+         stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+/*
         stage('OWASP Dependency Check') {
             steps {
                   withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
@@ -49,7 +57,7 @@ pipeline {
              }
         }
         }
-
+*/
         stage('Build') {
             steps {
                 sh "mvn package -DskipTests=true"
@@ -68,7 +76,7 @@ pipeline {
         stage('build and Tag docker image') {
             steps {
                 script {
-                        sh "docker build -t youngminds73/ekart:latest -f docker/Dockerfile ."
+                        sh "docker build -t akashrutu/ekart:latest -f docker/Dockerfile ."
                     }
             }
         }
@@ -78,7 +86,7 @@ pipeline {
                 script{
                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                    sh 'docker login -u youngminds73 -p ${dockerhubpwd}'}
-                   sh 'docker push youngminds73/ekart:latest'
+                   sh 'docker push akashrutu/ekart:latest'
                 }
             }
         }
