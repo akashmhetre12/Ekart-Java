@@ -48,6 +48,8 @@ pipeline {
                 }
             }
         }
+
+        */
         
         stage('OWASP Dependency Check') {
             steps {
@@ -57,7 +59,7 @@ pipeline {
              }
         }
         }
-*/
+
         stage('Build') {
             steps {
                 sh "mvn package -DskipTests=true"
@@ -85,7 +87,7 @@ pipeline {
             steps{
                 script{
                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u youngminds73 -p ${dockerhubpwd}'}
+                   sh 'docker login -u akashrutu -p ${dockerhubpwd}'}
                    sh 'docker push akashrutu/ekart:latest'
                 }
             }
