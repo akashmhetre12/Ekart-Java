@@ -49,7 +49,7 @@ pipeline {
             }
         }
 
-        */
+        
         
         stage('OWASP Dependency Check') {
             steps {
@@ -59,6 +59,7 @@ pipeline {
              }
         }
         }
+        */
 
         stage('Build') {
             steps {
